@@ -14,7 +14,6 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-hbs.registerPartials(__dirname + '/views/partials');
 
 // mongoose models setup
 fs.readdirSync(__dirname + '/models').forEach( function(fileName) {
@@ -27,14 +26,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(require('node-sass-middleware')({
-  src: path.join(__dirname, 'public/stylesheets'),
-  dest: path.join(__dirname, 'public/stylesheets'),
-  indentedSyntax: true,
-  sourceMap: true
+  src: path.join(__dirname, '/public'),
+  dest: path.join(__dirname, '/public'),
+  outputStyle: 'compressed'
 }));
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Map to route files
 app.use('/', require('./routes/index'));
